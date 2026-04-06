@@ -157,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -462.22223, y: 51.99998}
+  m_AnchoredPosition: {x: -750.5, y: 51.99998}
   m_SizeDelta: {x: 64.7711, y: 65.1422}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &431187313
@@ -682,7 +682,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -462.22223, y: -47.00002}
+  m_AnchoredPosition: {x: -750.5, y: -47.00002}
   m_SizeDelta: {x: 64.7711, y: 65.1422}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1479210540
@@ -818,6 +818,7 @@ MonoBehaviour:
   canvaXMax: 1
   canvaYMin: -3
   canvaYMax: 3
+  minDistanceBetweenPoints: 0.02
 --- !u!4 &1493732623
 Transform:
   m_ObjectHideFlags: 0
@@ -884,7 +885,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -901,8 +902,8 @@ Canvas:
   m_GameObject: {fileID: 1551848538}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -973,7 +974,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -462.22223, y: 142}
+  m_AnchoredPosition: {x: -750.5, y: 142}
   m_SizeDelta: {x: 64.7711, y: 65.1422}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1598752986
@@ -1105,7 +1106,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -462.22223, y: -141.00002}
+  m_AnchoredPosition: {x: -750.5, y: -141.00002}
   m_SizeDelta: {x: 64.7711, y: 65.1422}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1613235226
@@ -1154,7 +1155,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1493732622}
         m_TargetAssemblyTypeName: Drawing, Assembly-CSharp
-        m_MethodName: whiteButton
+        m_MethodName: WhiteButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

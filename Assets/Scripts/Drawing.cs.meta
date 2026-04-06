@@ -3,7 +3,12 @@ guid: 1e33767502fea754eb9aa41843f076c5
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - m_camera: {instanceID: 0}
+  - brushRed: {fileID: 3271905581605313552, guid: 3d99fcfd2f8325e48ad6f85bcff27090, type: 3}
+  - brushBlue: {fileID: 8934481723419450924, guid: 5cf2cb150832730448158e6136dfd8d5, type: 3}
+  - brushGreen: {fileID: 1197705105588486745, guid: e3b95fffa0a17694d8fe34adb1d1086c, type: 3}
+  - brushWhite: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

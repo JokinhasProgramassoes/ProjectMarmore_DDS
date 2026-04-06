@@ -1,54 +1,111 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
 
 public class Drawing : MonoBehaviour
 {
     public Camera m_camera;
-    #region Cores dos Strokes
+
+    [Header("Brushes")]
     public GameObject brushRed;
     public GameObject brushBlue;
     public GameObject brushGreen;
     public GameObject brushWhite;
-    #endregion
+
+    [Header("Brush atual")]
     public int brushCount;
 
-    LineRenderer currentLineRenderer;
-    Vector2 lastPos;
+    [Header("Limites do canvas")]
+    public float canvaXMin = 0.0f;
+    public float canvaXMax = 1.0f;
+    public float canvaYMin = 0.0f;
+    public float canvaYMax = 1.0f;
 
-    //Limite do canvas--------------------------
-    public float canvaXMin = 0.0f, canvaXMax = 1.0f;
-    public float canvaYMin = 0.0f, canvaYMax = 1.0f;
-    
+    [Header("Suavidade do traço")]
+    public float minDistanceBetweenPoints = 0.02f;
+
+    private LineRenderer currentLineRenderer;
+    private Vector2 lastPos;
+
     void Update()
     {
-        
         Draw();
     }
 
-    Vector2 GetRawMousePos()
+    bool TryGetInputPosition(out Vector2 screenPos)
     {
-        return m_camera.ScreenToWorldPoint(Input.mousePosition);
+        if (Input.touchCount > 0)
+        {
+            screenPos = Input.GetTouch(0).position;
+            return true;
+        }
+
+        screenPos = Input.mousePosition;
+        return true;
     }
 
-    Vector2 GetClampedMousePos()
+    bool InputStarted()
     {
-        Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
-        //Clamp do tamanho do canvas:
-        mousePos.x = Mathf.Clamp(mousePos.x, canvaXMin, canvaXMax);
-        mousePos.y = Mathf.Clamp(mousePos.y, canvaYMin, canvaYMax); 
+        if (Input.touchCount > 0)
+        {
+            return Input.GetTouch(0).phase == TouchPhase.Began;
+        }
 
-        return mousePos;
+        return Input.GetMouseButtonDown(0);
     }
 
-    bool IsInsideCanvas (Vector2 pos)
+    bool InputHeld()
+    {
+        if (Input.touchCount > 0)
+        {
+            TouchPhase phase = Input.GetTouch(0).phase;
+            return phase == TouchPhase.Moved || phase == TouchPhase.Stationary;
+        }
+
+        return Input.GetMouseButton(0);
+    }
+
+    bool InputEnded()
+    {
+        if (Input.touchCount > 0)
+        {
+            TouchPhase phase = Input.GetTouch(0).phase;
+            return phase == TouchPhase.Ended || phase == TouchPhase.Canceled;
+        }
+
+        return Input.GetMouseButtonUp(0);
+    }
+
+    bool IsPointerOverUI()
+    {
+        if (EventSystem.current == null) return false;
+
+        if (Input.touchCount > 0)
+        {
+            return EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+        }
+
+        return EventSystem.current.IsPointerOverGameObject();
+    }
+
+    Vector2 ScreenToWorld(Vector2 screenPos)
+    {
+        return m_camera.ScreenToWorldPoint(screenPos);
+    }
+
+    Vector2 GetClampedWorldPos(Vector2 screenPos)
+    {
+        Vector2 pos = ScreenToWorld(screenPos);
+
+        pos.x = Mathf.Clamp(pos.x, canvaXMin, canvaXMax);
+        pos.y = Mathf.Clamp(pos.y, canvaYMin, canvaYMax);
+
+        return pos;
+    }
+
+    bool IsInsideCanvas(Vector2 pos)
     {
         return pos.x >= canvaXMin && pos.x <= canvaXMax &&
-        pos.y >= canvaYMin && pos.y <= canvaYMax; 
+               pos.y >= canvaYMin && pos.y <= canvaYMax;
     }
 
     void AddPoint(Vector2 pointPos)
@@ -58,47 +115,45 @@ public class Drawing : MonoBehaviour
         currentLineRenderer.SetPosition(positionIndex, pointPos);
     }
 
-     void PointToMousePos()
+    void PointToInputPos(Vector2 screenPos)
     {
-        Vector2 mousePos = GetClampedMousePos();
-        
-        if(lastPos != mousePos)
+        Vector2 pos = GetClampedWorldPos(screenPos);
+
+        if (Vector2.Distance(lastPos, pos) > minDistanceBetweenPoints)
         {
-            AddPoint(mousePos);
-            lastPos = mousePos;
+            AddPoint(pos);
+            lastPos = pos;
         }
     }
 
-
     void Draw()
     {
-        Vector2 rawMousePos = GetRawMousePos();
+        if (!TryGetInputPosition(out Vector2 screenPos))
+            return;
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        Vector2 rawWorldPos = ScreenToWorld(screenPos);
+
+        if (InputStarted())
         {
-            
-            if (!IsInsideCanvas(rawMousePos)) return;
-            
-            if(brushCount == 0) CreateBrushRed();
-            if(brushCount == 1) CreateBrushGreen();
-            if(brushCount == 2) CreateBrushBlue();
-            if(brushCount == 3) CreateBrushWhite();
-        
+            if (IsPointerOverUI()) return;
+            if (!IsInsideCanvas(rawWorldPos)) return;
+
+            CreateBrush(screenPos);
         }
-
-        else if (Input.GetKey(KeyCode.Mouse0))
+        else if (InputHeld())
         {
-            if(currentLineRenderer == null) return;
+            if (currentLineRenderer == null) return;
+            if (IsPointerOverUI()) return;
 
-            if (!IsInsideCanvas(rawMousePos))
+            if (!IsInsideCanvas(rawWorldPos))
             {
                 currentLineRenderer = null;
                 return;
             }
 
-            PointToMousePos();
+            PointToInputPos(screenPos);
         }
-        else
+        else if (InputEnded())
         {
             currentLineRenderer = null;
         }
@@ -108,76 +163,57 @@ public class Drawing : MonoBehaviour
     public void RedButton()
     {
         brushCount = 0;
-    } 
+    }
+
     public void GreenButton()
     {
         brushCount = 1;
-    } 
+    }
+
     public void BlueButton()
     {
         brushCount = 2;
-    } 
-    public void whiteButton()
+    }
+
+    public void WhiteButton()
     {
         brushCount = 3;
-    } 
-    #endregion
-
-    #region Brushes
-    void CreateBrushRed()
-    {
-        GameObject brushInstance = Instantiate (brushRed);
-        currentLineRenderer = brushInstance.GetComponent<LineRenderer>();
-        
-        Vector2 mousePos = GetClampedMousePos();
-
-        currentLineRenderer.positionCount = 2;
-        currentLineRenderer.SetPosition(0, mousePos);
-        currentLineRenderer.SetPosition(1, mousePos);
-
-        lastPos = mousePos;
-    }
-
-    void CreateBrushGreen()
-    {
-        GameObject brushInstance = Instantiate (brushGreen);
-        currentLineRenderer = brushInstance.GetComponent<LineRenderer>();
-        
-        Vector2 mousePos = GetClampedMousePos();
-
-        currentLineRenderer.positionCount = 2;
-        currentLineRenderer.SetPosition(0, mousePos);
-        currentLineRenderer.SetPosition(1, mousePos);
-
-        lastPos = mousePos;
-    }
-
-    void CreateBrushBlue()
-    {
-        GameObject brushInstance = Instantiate (brushBlue);
-        currentLineRenderer = brushInstance.GetComponent<LineRenderer>();
-        
-        Vector2 mousePos = GetClampedMousePos();
-
-        currentLineRenderer.positionCount = 2;
-        currentLineRenderer.SetPosition(0, mousePos);
-        currentLineRenderer.SetPosition(1, mousePos);
-
-        lastPos = mousePos;
-    }
-
-    void CreateBrushWhite()
-    {
-        GameObject brushInstance = Instantiate (brushWhite);
-        currentLineRenderer = brushInstance.GetComponent<LineRenderer>();
-        
-        Vector2 mousePos = GetClampedMousePos();
-
-        currentLineRenderer.positionCount = 2;
-        currentLineRenderer.SetPosition(0, mousePos);
-        currentLineRenderer.SetPosition(1, mousePos);
-
-        lastPos = mousePos;
     }
     #endregion
+
+    void CreateBrush(Vector2 screenPos)
+    {
+        GameObject selectedBrush = brushRed;
+
+        switch (brushCount)
+        {
+            case 0:
+                selectedBrush = brushRed;
+                Debug.Log("Red");
+                break;
+            case 1:
+                selectedBrush = brushGreen;
+                Debug.Log("Green");
+                break;
+            case 2:
+                selectedBrush = brushBlue;
+                Debug.Log("Blue");
+                break;
+            case 3:
+                selectedBrush = brushWhite;
+                Debug.Log("White");
+                break;
+        }
+
+        GameObject brushInstance = Instantiate(selectedBrush);
+        currentLineRenderer = brushInstance.GetComponent<LineRenderer>();
+
+        Vector2 pos = GetClampedWorldPos(screenPos);
+
+        currentLineRenderer.positionCount = 2;
+        currentLineRenderer.SetPosition(0, pos);
+        currentLineRenderer.SetPosition(1, pos);
+
+        lastPos = pos;
+    }
 }
