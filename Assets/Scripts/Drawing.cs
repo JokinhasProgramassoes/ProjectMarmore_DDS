@@ -10,6 +10,10 @@ public class Drawing : MonoBehaviour
     public GameObject brushBlue;
     public GameObject brushGreen;
     public GameObject brushWhite;
+    public GameObject brushYellow;
+    public GameObject brushOrange;
+    public GameObject brushPurpol;
+    public GameObject brushBrown;
 
     [Header("Brush atual")]
     public int brushCount;
@@ -20,7 +24,7 @@ public class Drawing : MonoBehaviour
     public float canvaYMin = 0.0f;
     public float canvaYMax = 1.0f;
 
-    [Header("Suavidade do traço")]
+    [Header("Suavidade do traco")]
     public float minDistanceBetweenPoints = 0.02f;
 
     private LineRenderer currentLineRenderer;
@@ -159,27 +163,6 @@ public class Drawing : MonoBehaviour
         }
     }
 
-    #region EscolhaCor
-    public void RedButton()
-    {
-        brushCount = 0;
-    }
-
-    public void GreenButton()
-    {
-        brushCount = 1;
-    }
-
-    public void BlueButton()
-    {
-        brushCount = 2;
-    }
-
-    public void WhiteButton()
-    {
-        brushCount = 3;
-    }
-    #endregion
 
     void CreateBrush(Vector2 screenPos)
     {
@@ -202,6 +185,22 @@ public class Drawing : MonoBehaviour
             case 3:
                 selectedBrush = brushWhite;
                 Debug.Log("White");
+                break;
+            case 4:
+                selectedBrush = brushYellow;
+                Debug.Log("Yellow");
+                break;
+            case 5:
+                selectedBrush = brushOrange;
+                Debug.Log("Orange");
+                break;
+            case 6:
+                selectedBrush = brushBrown;
+                Debug.Log("Brown");
+                break;
+            case 7:
+                selectedBrush = brushPurpol;
+                Debug.Log("Purpol");
                 break;
         }
 

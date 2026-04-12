@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1197705105588486745
+--- !u!1 &3271905581605313552
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5465358701694820040}
-  - component: {fileID: 4087247712497978279}
+  - component: {fileID: 7236808340464259805}
+  - component: {fileID: 348735940804569771}
   m_Layer: 0
-  m_Name: BrushGreen
+  m_Name: BrushYellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5465358701694820040
+--- !u!4 &7236808340464259805
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197705105588486745}
+  m_GameObject: {fileID: 3271905581605313552}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.6090238, y: 0.9006455, z: 0.01065883}
@@ -32,14 +32,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!120 &4087247712497978279
+--- !u!120 &348735940804569771
 LineRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197705105588486745}
+  m_GameObject: {fileID: 3271905581605313552}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -97,8 +97,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 1, b: 0.078332424, a: 1}
-      key1: {r: 0, g: 1, b: 0.006676197, a: 1}
+      key0: {r: 1, g: 0.8784314, b: 0.019607844, a: 1}
+      key1: {r: 1, g: 0.8784314, b: 0.019607844, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -114,7 +114,7 @@ LineRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 32768
-      atime1: 64995
+      atime1: 65535
       atime2: 65535
       atime3: 0
       atime4: 0
