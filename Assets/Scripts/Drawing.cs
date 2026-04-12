@@ -18,6 +18,18 @@ public class Drawing : MonoBehaviour
     [Header("Brush atual")]
     public int brushCount;
 
+    [Header("Tamanho do pincel atual")]
+    public float currentBrushSize = 0.1f;
+
+    [Header("Tamanhos disponíveis")]
+    public float smallBrushSize = 0.05f;
+    public float mediumBrushSize = 0.1f;
+    public float largeBrushSize = 0.2f;
+
+    [Header("Opacidade atual")]
+    [Range(0f, 1f)]
+    public float currentAlpha = 1f;
+
     [Header("Limites do canvas")]
     public float canvaXMin = 0.0f;
     public float canvaXMax = 1.0f;
@@ -163,6 +175,66 @@ public class Drawing : MonoBehaviour
         }
     }
 
+    public void SmallBrushButton()
+    {
+        currentBrushSize = smallBrushSize;
+    }
+
+    public void MediumBrushButton()
+    {
+        currentBrushSize = mediumBrushSize;
+    }
+
+    public void LargeBrushButton()
+    {
+        currentBrushSize = largeBrushSize;
+    }
+
+public void SetAlpha(float value)
+{
+    currentAlpha = value;
+    Debug.Log("Slider mexeu: " + value);
+}
+
+    public void RedButton()
+    {
+        brushCount = 0;
+    }
+
+    public void GreenButton()
+    {
+        brushCount = 1;
+    }
+
+    public void BlueButton()
+    {
+        brushCount = 2;
+    }
+
+    public void WhiteButton()
+    {
+        brushCount = 3;
+    }
+
+    public void YellowButton()
+    {
+        brushCount = 4;
+    }
+
+    public void OrangeButton()
+    {
+        brushCount = 5;
+    }
+
+    public void BrownButton()
+    {
+        brushCount = 6;
+    }
+
+    public void PurpolButton()
+    {
+        brushCount = 7;
+    }
 
     void CreateBrush(Vector2 screenPos)
     {
@@ -206,6 +278,18 @@ public class Drawing : MonoBehaviour
 
         GameObject brushInstance = Instantiate(selectedBrush);
         currentLineRenderer = brushInstance.GetComponent<LineRenderer>();
+
+        currentLineRenderer.startWidth = currentBrushSize;
+        currentLineRenderer.endWidth = currentBrushSize;
+
+        Color startColor = currentLineRenderer.startColor;
+        Color endColor = currentLineRenderer.endColor;
+
+        startColor.a = currentAlpha;
+        endColor.a = currentAlpha;
+
+        currentLineRenderer.startColor = startColor;
+        currentLineRenderer.endColor = endColor;
 
         Vector2 pos = GetClampedWorldPos(screenPos);
 
