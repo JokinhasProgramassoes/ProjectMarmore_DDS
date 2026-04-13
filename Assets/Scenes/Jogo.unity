@@ -2023,7 +2023,7 @@ MonoBehaviour:
   mediumBrushSize: 0.1
   largeBrushSize: 0.2
   currentAlpha: 1
-  canvaXMin: -4
+  canvaXMin: -4.3
   canvaXMax: 6
   canvaYMin: -3
   canvaYMax: 4.5
