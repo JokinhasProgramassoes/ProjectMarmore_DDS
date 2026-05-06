@@ -46,5 +46,25 @@ public class ColorPickerUI : MonoBehaviour
         drawing.brushCount = 7;
     }
 
+    public void PinkButton()
+    {
+        drawing.brushCount = 8;
+    }
+
+    public void BlackButton()
+    {
+        drawing.brushCount = 9;
+    }
+
+    public void DarkGreenButton()
+    {
+        drawing.brushCount = 10;
+    }
+
+    public void LightBlueButton()
+    {
+        drawing.brushCount = 11;
+    }
+
 
 }

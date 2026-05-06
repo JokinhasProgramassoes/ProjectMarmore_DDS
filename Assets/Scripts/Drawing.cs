@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,6 +15,10 @@ public class Drawing : MonoBehaviour
     public GameObject brushOrange;
     public GameObject brushPurpol;
     public GameObject brushBrown;
+    public GameObject brushBlack;
+    public GameObject brushLightBlue;
+    public GameObject brushPink;
+    public GameObject brushDarkGreen;
 
     [Header("Brush atual")]
     public int brushCount;
@@ -41,6 +46,8 @@ public class Drawing : MonoBehaviour
 
     private LineRenderer currentLineRenderer;
     private Vector2 lastPos;
+
+    public AudioSource brushSound;
 
     void Update()
     {
@@ -154,7 +161,10 @@ public class Drawing : MonoBehaviour
             if (IsPointerOverUI()) return;
             if (!IsInsideCanvas(rawWorldPos)) return;
 
+            brushSound.Play();
+
             CreateBrush(screenPos);
+
         }
         else if (InputHeld())
         {
@@ -236,6 +246,26 @@ public void SetAlpha(float value)
         brushCount = 7;
     }
 
+    public void PinkButton()
+    {
+        brushCount = 8;
+    }
+
+    public void BlackButton()
+    {
+        brushCount = 9;
+    }
+
+    public void DarkGreenButton()
+    {
+        brushCount = 10;
+    }
+
+    public void LightBlueButton()
+    {
+        brushCount = 11;
+    }
+
     void CreateBrush(Vector2 screenPos)
     {
         GameObject selectedBrush = brushRed;
@@ -273,6 +303,22 @@ public void SetAlpha(float value)
             case 7:
                 selectedBrush = brushPurpol;
                 Debug.Log("Purpol");
+                break;
+            case 8:
+                selectedBrush = brushPink;
+                Debug.Log("Pink");
+                break;  
+            case 9:
+                selectedBrush = brushBlack;
+                Debug.Log("Black");
+                break;
+            case 10:
+                selectedBrush = brushDarkGreen;
+                Debug.Log("Dark Green");
+                break;
+            case 11:
+                selectedBrush = brushLightBlue;
+                Debug.Log("Light Blue");
                 break;
         }
 
