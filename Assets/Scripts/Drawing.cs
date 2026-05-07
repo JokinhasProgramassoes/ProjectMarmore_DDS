@@ -161,7 +161,7 @@ public class Drawing : MonoBehaviour
             if (IsPointerOverUI()) return;
             if (!IsInsideCanvas(rawWorldPos)) return;
 
-            brushSound.Play();
+            //brushSound.Play();
 
             CreateBrush(screenPos);
 
